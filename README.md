@@ -27,6 +27,7 @@ Currently I see this tasks that need to be solved
 - [] add iOS
 - [] add MacOS
 - [] add Linux
+- [] add a way to render Text. My current idea would be to render Text using Flutter onto a canvas and pass that down as texture to WebGPU
 - [] design Widgets that let you use GPU in Flutter
 - [] write examples and documantation
 
@@ -35,4 +36,5 @@ Some more resources:
 https://sotrh.github.io/learn-wgpu/
 https://alain.xyz/blog/comparison-of-modern-graphics-apis
 https://alain.xyz/blog/a-review-of-shader-languages
+https://aras-p.info/blog/2017/02/15/ Font-Rendering-is-Getting-Interesting/
 
