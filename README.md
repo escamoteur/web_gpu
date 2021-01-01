@@ -17,19 +17,19 @@ Luckily [Aaronia](https://aaronia.de) supports this project by that I can work p
 
 As there is a lot to do, and it needs knowledge of the tool chains for the different platforms it would be amazing if you could join this project.
 
-Currently I see this tasks that need to be solved
+Currently, I see the following tasks that need to be solved.
 
-- [] Try to download and build *Dawn* and try to get one of the C++ examples running
-- [] If Dawn doesn't work, try with *wgpu-native*
-- [] Set up WebGPU to build for Windows (I would start there because I know VS much better than X-Code)
-- [] Create a Dart-FFI layer for `web_gpu.h`. The nice thing is that Dawn has a full definition of the web_gpu API in a JSON file from that it generates C++ code. I'm pretty sure we will be able to use that too to generate the needed Dart code automatically.
-- [] add Android
-- [] add iOS
-- [] add MacOS
-- [] add Linux
-- [] add a way to render Text. My current idea would be to render Text using Flutter onto a canvas and pass that down as texture to WebGPU
-- [] design Widgets that let you use GPU in Flutter
-- [] write examples and documantation
+- [ ] Try to download and build *Dawn* and try to get one of the C++ examples running
+- [ ] If Dawn doesn't work, try with *wgpu-native*
+- [ ] Set up WebGPU to build for Windows (I would start there because I know VS much better than X-Code)
+- [ ] Create a Dart-FFI layer for `web_gpu.h`. The nice thing is that Dawn has a full definition of the web_gpu API in a JSON file from that it generates C++ code. I'm pretty sure we will be able to use that too to generate the needed Dart code automatically.
+- [ ] add Android
+- [ ] add iOS
+- [ ] add macOS
+- [ ] add Linux
+- [ ] add a way to render text. My current idea would be to render text using Flutter onto a canvas and pass that down as texture to WebGPU.
+- [ ] design widgets that let you use GPU in Flutter
+- [ ] write examples and documantation
 
 Some more resources:
 
