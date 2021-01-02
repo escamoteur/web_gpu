@@ -1,14 +1,11 @@
 #include "include/web_gpu/web_gpu_plugin.h"
 
+#include <dawn/dawn_proc.h>
+#include <dawn_native/DawnNative.h>
 #include <flutter_linux/flutter_linux.h>
-#include <gtk/gtk.h>
-#include <sys/utsname.h>
-
-#include <cstring>
 
 #define WEB_GPU_PLUGIN(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST((obj), web_gpu_plugin_get_type(), \
-                              WebGpuPlugin))
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), web_gpu_plugin_get_type(), WebGpuPlugin))
 
 struct _WebGpuPlugin {
   GObject parent_instance;
@@ -17,19 +14,15 @@ struct _WebGpuPlugin {
 G_DEFINE_TYPE(WebGpuPlugin, web_gpu_plugin, g_object_get_type())
 
 // Called when a method call is received from Flutter.
-static void web_gpu_plugin_handle_method_call(
-    WebGpuPlugin* self,
-    FlMethodCall* method_call) {
+static void web_gpu_plugin_handle_method_call(WebGpuPlugin* self,
+                                              FlMethodCall* method_call) {
   g_autoptr(FlMethodResponse) response = nullptr;
 
   const gchar* method = fl_method_call_get_name(method_call);
 
-  if (strcmp(method, "getPlatformVersion") == 0) {
-    struct utsname uname_data = {};
-    uname(&uname_data);
-    g_autofree gchar *version = g_strdup_printf("Linux %s", uname_data.version);
-    g_autoptr(FlValue) result = fl_value_new_string(version);
-    response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
+  if (strcmp(method, "init") == 0) {
+    dawnProcSetProcs(&dawn_native::GetProcs());
+    response = FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
   } else {
     response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
   }
@@ -54,17 +47,14 @@ static void method_call_cb(FlMethodChannel* channel, FlMethodCall* method_call,
 }
 
 void web_gpu_plugin_register_with_registrar(FlPluginRegistrar* registrar) {
-  WebGpuPlugin* plugin = WEB_GPU_PLUGIN(
-      g_object_new(web_gpu_plugin_get_type(), nullptr));
-
+  WebGpuPlugin* plugin =
+      WEB_GPU_PLUGIN(g_object_new(web_gpu_plugin_get_type(), nullptr));
   g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
   g_autoptr(FlMethodChannel) channel =
       fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
-                            "web_gpu",
-                            FL_METHOD_CODEC(codec));
-  fl_method_channel_set_method_call_handler(channel, method_call_cb,
-                                            g_object_ref(plugin),
-                                            g_object_unref);
+                            "web_gpu", FL_METHOD_CODEC(codec));
+  fl_method_channel_set_method_call_handler(
+      channel, method_call_cb, g_object_ref(plugin), g_object_unref);
 
   g_object_unref(plugin);
 }
