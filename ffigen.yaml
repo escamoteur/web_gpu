@@ -1,0 +1,20 @@
+name: LibWebGPU
+description: >-
+  WebGPU exposes an API for performing operations, such as rendering and
+  computation, on a Graphics Processing Unit.
+output: 'lib/src/bindings.dart'
+headers:
+  entry-points:
+    - 'third_party/dawn/webgpu.h'
+functions:
+ include:
+   - 'wgpu.*'
+structs:
+ include:
+   - 'WGPU.*'
+enums:
+ include:
+   - 'WGPU.*'
+macros:
+ include:
+   - 'WGPU.*'
