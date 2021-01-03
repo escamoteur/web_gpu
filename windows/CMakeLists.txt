@@ -19,6 +19,13 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE flutter flutter_wrapper_plugin)
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(web_gpu_bundled_libraries
-  ""
+  "${CMAKE_CURRENT_SOURCE_DIR}/bin/${MSVC_CXX_ARCHITECTURE_ID}/dawn_proc.dll"
+  "${CMAKE_CURRENT_SOURCE_DIR}/bin/${MSVC_CXX_ARCHITECTURE_ID}/dawn_native.dll"
   PARENT_SCOPE
 )
+
+target_include_directories(${PLUGIN_NAME} PRIVATE
+  "${CMAKE_CURRENT_SOURCE_DIR}/../third_party")
+target_link_directories(${PLUGIN_NAME} PRIVATE
+  "${CMAKE_CURRENT_SOURCE_DIR}/lib/${MSVC_CXX_ARCHITECTURE_ID}")
+target_link_libraries(${PLUGIN_NAME} PRIVATE dawn_proc.dll.lib dawn_native.dll.lib)
