@@ -1,5 +1,5 @@
 name: web_gpu
-description: A new flutter plugin project.
+description: Flutter plugin for rendering 3D objects efficently and accessing and programming the GPU from Dart.
 version: 0.0.0
 author:
 homepage:

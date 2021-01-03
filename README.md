@@ -1,4 +1,4 @@
-# web_gpu
+# web_gpu [![Pub Version](https://img.shields.io/pub/v/web_gpu)][Pub]
 
 So far there is no way to render 3D objects efficently in Flutter. Also directly accessing and programming the GPU from Dart isn't supported yet. This plugin shall close this gap. 
 
@@ -38,3 +38,4 @@ https://alain.xyz/blog/comparison-of-modern-graphics-apis
 https://alain.xyz/blog/a-review-of-shader-languages
 https://aras-p.info/blog/2017/02/15/ Font-Rendering-is-Getting-Interesting/
 
+[Pub]: https://pub.dev/packages/web_gpu
