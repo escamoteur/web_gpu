@@ -3,9 +3,6 @@
 // This must be included before many other Windows headers.
 #include <windows.h>
 
-#include <dawn/dawn_proc.h>
-#include <dawn_native/DawnNative.h>
-
 #include <flutter/method_channel.h>
 #include <flutter/plugin_registrar_windows.h>
 #include <flutter/standard_method_codec.h>
@@ -55,8 +52,7 @@ void WebGpuPlugin::HandleMethodCall(
     const flutter::MethodCall<flutter::EncodableValue> &method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
   if (method_call.method_name().compare("init") == 0) {
-    dawnProcSetProcs(&dawn_native::GetProcs());
-    result->Success(flutter::EncodableValue(true));
+    result->Success(flutter::EncodableValue(nullptr));
   } else {
     result->NotImplemented();
   }

@@ -29,7 +29,7 @@ String get _libSuffix {
           : '.so';
 }
 
-String _fixupLibName(String libName) {
+String fixupLibName(String libName) {
   return libName.prefixWith(_libPrefix).suffixWith(_libSuffix);
 }
 
@@ -40,17 +40,20 @@ bool _isFilePath(String path) {
       Directory(path).statSync().type == FileSystemEntityType.file;
 }
 
-String _resolveLibPath(String baseName, String environmentVariable) {
-  // allow specifying path to libdawn_proc.so via LIBDAWN_PATH Dart define or
-  // environment variable
-  final path = String.fromEnvironment(
-    environmentVariable,
-    defaultValue: Platform.environment[environmentVariable] ?? '',
-  );
+String _resolveLibPath(String baseName, [String environmentVariable = '']) {
+  var path = '';
+  if (environmentVariable.isNotEmpty) {
+    // allow specifying path to libdawn_proc.so via LIBDAWN_PATH Dart define or
+    // environment variable
+    final path = String.fromEnvironment(
+      environmentVariable,
+      defaultValue: Platform.environment[environmentVariable] ?? '',
+    );
 
-  // LIBDAWN_PATH=/path/to/libdawn_proc.so (full file path specified)
-  if (_isFilePath(path)) return path;
+    // LIBDAWN_PATH=/path/to/libdawn_proc.so (full file path specified)
+    if (_isFilePath(path)) return path;
+  }
 
   // LIBDAWN_PATH=/path (just the path specified)
-  return _fixupLibPath(path) + _fixupLibName(baseName);
+  return _fixupLibPath(path) + fixupLibName(baseName);
 }

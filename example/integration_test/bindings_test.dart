@@ -9,9 +9,9 @@ import 'package:web_gpu/web_gpu.dart';
 void main() => run(_testMain);
 
 void _testMain() async {
-  await WebGpu.ensureInitialized();
+  WebGpu.ensureInitialized();
 
-  test('wgpuCreateInstance', () async {
+  test('wgpuCreateInstance', () {
     final instance = dylib.wgpuCreateInstance(ffi.nullptr);
     expect(instance, isNotNull);
     expect(instance.address, isNonZero);

@@ -1,7 +1,5 @@
 #include "include/web_gpu/web_gpu_plugin.h"
 
-#include <dawn/dawn_proc.h>
-#include <dawn_native/DawnNative.h>
 #include <flutter_linux/flutter_linux.h>
 
 #define WEB_GPU_PLUGIN(obj) \
@@ -21,7 +19,6 @@ static void web_gpu_plugin_handle_method_call(WebGpuPlugin* self,
   const gchar* method = fl_method_call_get_name(method_call);
 
   if (strcmp(method, "init") == 0) {
-    dawnProcSetProcs(&dawn_native::GetProcs());
     response = FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
   } else {
     response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());

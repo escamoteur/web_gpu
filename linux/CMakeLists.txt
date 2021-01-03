@@ -5,6 +5,7 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 # This value is used when generating builds using this plugin, so it must
 # not be changed
 set(PLUGIN_NAME "web_gpu_plugin")
+set(LIB_NAME "web_gpu_init")
 
 add_library(${PLUGIN_NAME} SHARED
   "web_gpu_plugin.cc"
@@ -17,16 +18,22 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
   "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PLUGIN_NAME} PRIVATE flutter)
 target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
+target_link_libraries(${PLUGIN_NAME} PRIVATE ${LIB_NAME})
+
+set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_SYSTEM_PROCESSOR}")
+
+add_library(${LIB_NAME} SHARED
+  "web_gpu_init.cc"
+)
+target_include_directories(${LIB_NAME} PRIVATE
+  "${CMAKE_CURRENT_SOURCE_DIR}/../third_party")
+target_link_directories(${LIB_NAME} PRIVATE ${LIB_DIR})
+target_link_libraries(${LIB_NAME} PRIVATE dawn_proc dawn_native)
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(web_gpu_bundled_libraries
-  "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_SYSTEM_PROCESSOR}/libdawn_proc.so"
-  "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_SYSTEM_PROCESSOR}/libdawn_native.so"
+  "$<TARGET_FILE:${LIB_NAME}>"
+  "${LIB_DIR}/libdawn_proc.so"
+  "${LIB_DIR}/libdawn_native.so"
   PARENT_SCOPE
 )
-
-target_include_directories(${PLUGIN_NAME} PRIVATE
-  "${CMAKE_CURRENT_SOURCE_DIR}/../third_party")
-target_link_directories(${PLUGIN_NAME} PRIVATE
-  "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_SYSTEM_PROCESSOR}")
-target_link_libraries(${PLUGIN_NAME} PRIVATE dawn_proc dawn_native)
