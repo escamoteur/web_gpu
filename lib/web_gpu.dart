@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+import 'src/init.dart';
+
 class WebGpu {
   static const MethodChannel _channel = const MethodChannel('web_gpu');
   static bool _initialized = false;
@@ -11,8 +13,8 @@ class WebGpu {
     return version;
   }
 
-  static Future<void> ensureInitialized() async {
+  static void ensureInitialized() {
     if (_initialized) return;
-    _initialized = await _channel.invokeMethod('init');
+    _initialized = initWebGpu();
   }
 }
