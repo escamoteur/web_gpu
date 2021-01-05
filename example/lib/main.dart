@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:web_gpu/web_gpu.dart';
 
 void main() {
+  WebGpu.ensureInitialized();
+  final lib = WebGpu.lib;
   runApp(MyApp());
 }
 

@@ -28,7 +28,7 @@ add_library(${LIB_NAME} SHARED
 target_include_directories(${LIB_NAME} PRIVATE
   "${CMAKE_CURRENT_SOURCE_DIR}/../third_party")
 target_link_directories(${LIB_NAME} PRIVATE ${LIB_DIR})
-target_link_libraries(${LIB_NAME} PRIVATE dawn_proc.dll.lib dawn_native.dll.lib)
+target_link_libraries(${LIB_NAME} PRIVATE dawn_proc.dll.lib dawn_native.dll.lib )
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(web_gpu_bundled_libraries
