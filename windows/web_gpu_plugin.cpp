@@ -19,27 +19,13 @@ class WebGpuPlugin : public flutter::Plugin {
 
   virtual ~WebGpuPlugin();
 
- private:
-  // Called when a method is called on this plugin's channel from Dart.
-  void HandleMethodCall(
-      const flutter::MethodCall<flutter::EncodableValue> &method_call,
-      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
 };
 
 // static
 void WebGpuPlugin::RegisterWithRegistrar(
     flutter::PluginRegistrarWindows *registrar) {
-  auto channel =
-      std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-          registrar->messenger(), "web_gpu",
-          &flutter::StandardMethodCodec::GetInstance());
 
   auto plugin = std::make_unique<WebGpuPlugin>();
-
-  channel->SetMethodCallHandler(
-      [plugin_pointer = plugin.get()](const auto &call, auto result) {
-        plugin_pointer->HandleMethodCall(call, std::move(result));
-      });
 
   registrar->AddPlugin(std::move(plugin));
 }
@@ -48,15 +34,6 @@ WebGpuPlugin::WebGpuPlugin() {}
 
 WebGpuPlugin::~WebGpuPlugin() {}
 
-void WebGpuPlugin::HandleMethodCall(
-    const flutter::MethodCall<flutter::EncodableValue> &method_call,
-    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  if (method_call.method_name().compare("init") == 0) {
-    result->Success(flutter::EncodableValue(nullptr));
-  } else {
-    result->NotImplemented();
-  }
-}
 
 }  // namespace
 
