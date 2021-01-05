@@ -33,6 +33,21 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+    externalNativeBuild {
+        cmake {
+            path "src/lib/web_gpu_init/CMakeLists.txt"
+        }
+    }
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libdawn_proc.so'
+        pickFirst 'lib/arm64-v8a/libdawn_native.so'
+        pickFirst 'lib/armeabi-v7a/libdawn_proc.so'
+        pickFirst 'lib/armeabi-v7a/libdawn_native.so'
+        pickFirst 'lib/x86/libdawn_proc.so'
+        pickFirst 'lib/x86/libdawn_native.so'
+        pickFirst 'lib/x86_64/libdawn_proc.so'
+        pickFirst 'lib/x86_64/libdawn_native.so'
+    }
 }
 
 dependencies {
