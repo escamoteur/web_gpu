@@ -35,5 +35,6 @@ set(web_gpu_bundled_libraries
   "$<TARGET_FILE:${LIB_NAME}>"
   "${BIN_DIR}/dawn_proc.dll"
   "${BIN_DIR}/dawn_native.dll"
+  "${BIN_DIR}/vulkan-1.dll"
   PARENT_SCOPE
 )
