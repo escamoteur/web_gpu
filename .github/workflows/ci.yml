@@ -1,10 +1,12 @@
 name: CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
+
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
 
 jobs:
   linux:
@@ -35,6 +37,32 @@ jobs:
       working-directory: example
     - name: Run Integration Tests
       run: 'timeout 60 xvfb-run -a flutter drive -v --driver=integration_test/driver.dart --target=integration_test/bindings_test.dart || ( [[ $? -eq 124 ]] && echo "WARNING: timeout" )'
+      working-directory: example
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Setup Flutter
+      uses: subosito/flutter-action@master
+      with:
+        channel: master
+    - name: Configure Flutter
+      run: |
+        flutter config --enable-windows-desktop --no-enable-web
+    - name: Flutter Doctor
+      run: flutter doctor -v
+    - name: Build Example
+      run: flutter build windows -v
+      working-directory: example
+    - name: Run Integration Tests
+      run: flutter drive -v --driver=integration_test/driver.dart --target=integration_test/bindings_test.dart
       working-directory: example
 
   android:
