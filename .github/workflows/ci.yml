@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Setup Tools
+      run: |
+        sudo apt update
+        sudo apt install -y cmake dbus libblkid-dev libgtk-3-dev liblzma-dev ninja-build xvfb
+    - name: Setup Flutter
+      uses: subosito/flutter-action@master
+      with:
+        channel: master
+    - name: Configure Flutter
+      run: |
+        flutter config --enable-linux-desktop --no-enable-web
+    - name: Flutter Doctor
+      run: flutter doctor -v
+    - name: Build Example
+      run: flutter build linux -v
+      working-directory: example
+    - name: Run Integration Tests
+      run: 'timeout 60 xvfb-run -a flutter drive -v --driver=integration_test/driver.dart --target=integration_test/bindings_test.dart || ( [[ $? -eq 124 ]] && echo "WARNING: timeout" )'
+      working-directory: example
+
+  android:
+    name: Android
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86, x86_64]
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Setup Flutter
+      uses: subosito/flutter-action@master
+      with:
+        channel: master
+    - name: Build Example
+      run: flutter build apk
+      working-directory: example
+    - name: Run Integration Tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        arch: ${{matrix.arch}}
+        script: cd example && flutter drive -v --driver=integration_test/driver.dart --target=integration_test/bindings_test.dart
