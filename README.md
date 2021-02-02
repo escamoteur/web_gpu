@@ -1,3 +1,8 @@
+#This project won't be continued for now
+Digging deeper into the API of WebGPU and learning that there is the Angle Framework that enables cross platform OpenGL ES lead us to the decission to stop this project in favor of a new one that will Implment the WebGL API instead. WebGL is way easier to learn and there is a huge number of tuturorials and code out there.
+Please follow us on https://github.com/FlutterGL
+
+
 # web_gpu [![Pub Version](https://img.shields.io/pub/v/web_gpu)][Pub]
 
 So far there is no way to render 3D objects efficently in Flutter. Also directly accessing and programming the GPU from Dart isn't supported yet. This plugin shall close this gap. 
